@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ViewModels;
 using Web_Medical_API.models;
 
 namespace Web_Medical_API.Controllers.Master
@@ -13,95 +14,153 @@ namespace Web_Medical_API.Controllers.Master
     [ApiController]
     public class MUsersController : ControllerBase
     {
-        private readonly medicalContext _context;
-
-        public MUsersController(medicalContext context)
+        public readonly medicalContext db;
+        private VMResponse response = new VMResponse();
+        public MUsersController(medicalContext _db)
         {
-            _context = context;
+            db = _db;
         }
 
-        // GET: api/MUsers
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<MUser>>> GetMUsers()
+        [HttpGet("GetAllUser")]
+        public List<MUser> GetAllUser()
         {
-            return await _context.MUsers.ToListAsync();
+            List<MUser> admin = db.MUsers.Where(a => a.IsDelete == false).ToList();
+
+            return admin;
         }
-
-        // GET: api/MUsers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<MUser>> GetMUser(long id)
+        [HttpGet("CheckUserById/{id}")]
+        public bool CheckUserById(long id)
         {
-            var mUser = await _context.MUsers.FindAsync(id);
+            MUser user = new MUser();
+            user = db.MUsers.Where(a => a.Id == id && a.IsDelete == false).FirstOrDefault();
 
-            if (mUser == null)
+            if (user == null)
             {
-                return NotFound();
+                return false;
             }
 
-            return mUser;
+            return true;
         }
 
-        // PUT: api/MUsers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMUser(long id, MUser mUser)
-        {
-            if (id != mUser.Id)
-            {
-                return BadRequest();
-            }
 
-            _context.Entry(mUser).State = EntityState.Modified;
+        [HttpGet("GetUserById/{id}")]
+        public MUser GetUserById(int id)
+        {
+            MUser admin = new MUser();
+
+            admin = db.MUsers.Where(a => a.Id == id).FirstOrDefault();
+
+            return admin;
+
+        }
+        [HttpPost("AddAdmin")]
+        public VMResponse AddAdmin(MUser input)
+        {
+            input.CreatedOn = DateTime.Now;
+            input.CreatedBy = 1;
+            input.IsDelete = false;
 
             try
             {
-                await _context.SaveChangesAsync();
+                db.Add(input);
+                db.SaveChanges();
+
+                response.Success = true;
+                response.Message = "Data Insert Success";
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!MUserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                response.Success = false;
+                response.Message = "Input Failed with " + e;
             }
 
-            return NoContent();
+            return response;
         }
-
-        // POST: api/MUsers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<MUser>> PostMUser(MUser mUser)
+        [HttpPut("EditAdmin")]
+        public VMResponse EditAdmin(MAdmin input)
         {
-            _context.MUsers.Add(mUser);
-            await _context.SaveChangesAsync();
+            MUser res = db.MUsers.Where(a => a.Id == input.Id).FirstOrDefault();
 
-            return CreatedAtAction("GetMUser", new { id = mUser.Id }, mUser);
-        }
-
-        // DELETE: api/MUsers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMUser(long id)
-        {
-            var mUser = await _context.MUsers.FindAsync(id);
-            if (mUser == null)
+            if (res == null)
             {
-                return NotFound();
+                response.Success = false;
+                response.Message = "Data Not Found";
+                return response;
             }
 
-            _context.MUsers.Remove(mUser);
-            await _context.SaveChangesAsync();
+            res.Id = input.Id;
+            res.ModifiedOn = DateTime.Now;
+            res.ModifiedBy = 1;
 
-            return NoContent();
+            try
+            {
+                db.Update(res);
+                db.SaveChanges();
+
+                response.Success = true;
+                response.Message = "Edit Succes";
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = "Edit Failed " + e;
+            }
+
+            return response;
         }
 
-        private bool MUserExists(long id)
+
+
+
+
+        [HttpPut("RemoveAdmin")]
+        public VMResponse RemoveAdmin(MUser input)
         {
-            return _context.MUsers.Any(e => e.Id == id);
+            //VMKategoriFasKes test = new VMKategoriFasKes();
+            //test = (from user in db.MUsers
+            //        join bio in db.MBiodata on user.BiodataId equals bio.Id
+            //        wh
+            //        )
+            MUser res = db.MUsers.Where(a => a.Id == input.Id).FirstOrDefault();
+            if (res == null)
+            {
+                response.Success = false;
+                response.Message = "Data Not Found";
+                return response;
+            }
+            res.DeletedOn = DateTime.Now;
+            res.DeletedBy = 1;
+            res.IsDelete = true;
+            try
+            {
+                db.Update(res);
+                db.SaveChanges();
+
+                response.Success = true;
+                response.Message = "Edit Succes";
+            }
+            catch (Exception e)
+            {
+                response.Success = false;
+                response.Message = "Edit Failed " + e;
+            }
+
+            return response;
+
+
+
         }
+        ////buat dapetin id user
+        //[HttpGet("GetUserById/{id}")]
+        //public MUser GetUserById(int id)
+        //{
+        //    MUser user = new MUser();
+
+        //    user = db.MUsers.Where(a => a.Id == id).FirstOrDefault();
+
+        //    return user;
+
+        //}
     }
 }
