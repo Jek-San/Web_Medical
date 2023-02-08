@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ViewModel;
 
 namespace Web_Medical_FE.Services
@@ -18,12 +19,12 @@ namespace Web_Medical_FE.Services
 
         }
 
-        
 
+        [HttpGet]
         public async Task<bool> Login(string Email, string Password)
         {
             bool isLogin = true;
-            string apiResponse = await client.GetStringAsync(RouteAPI + $"api/apiAuth/Login/{Email}/{Password}");
+            string apiResponse = await client.GetStringAsync(RouteAPI + $"/api/apiAuth/Login/{Email}/{Password}");
             isLogin = JsonConvert.DeserializeObject<bool>(apiResponse);
 
             return isLogin;

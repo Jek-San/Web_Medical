@@ -17,12 +17,14 @@ namespace Web_Medical_FE.Controllers
             
             return PartialView();
         }
-        public async Task<IActionResult> Login(string Name, string Password)
+        public async Task<IActionResult> Login(VMUser user)
         {
+            string Name = user.Email;
+            string Password = user.Password;
             bool isLigin = await authService.Login(Name, Password);
 
             if (isLigin==true) 
-            { return View("Index"); }
+            { return View("Index","Home"); }
             return RedirectToAction("Index");
 
         }

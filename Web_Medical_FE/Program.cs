@@ -1,7 +1,13 @@
+using Web_Medical_FE.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddScoped<AuthService>();
+
 
 var app = builder.Build();
 

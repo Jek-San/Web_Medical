@@ -45,7 +45,7 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button id="login" class="btn btn-secondary my-2 my-sm-0" >Login</button>
+                    <button id="login"  class="btn btn-secondary my-2 my-sm-0" >Login</button>
                 </div>
                 @*<form class="d-flex">
                     <input class="form-control me-sm-2" type="search" placeholder="Search">
@@ -68,17 +68,17 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="modal-title" class="modal-title">Modal title</h5>
+        <h5 id="modal_title" class="modal-title">Modal title</h5>
         <button hidden type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"></span>
         </button>
       </div>
-      <div id="modal-body-sm" class="modal-body">
+      <div id="modal_body_sm" class="modal-body">
         <p>---------------</p>
       </div>
       <div class="modal-footer">
-        <button id="btn-submit"  type="button" class="btn btn-primary">Save changes</button>
-        <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="btn_submit"  type="button" class="btn btn-primary">Save changes</button>
+        <button id="btn_close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -101,14 +101,16 @@
     $(document).ready(function () {
         $("#login").click(function (){
 
-            $("#modal-body-sm").load("/Auth/Index");
-            $("#modal-title").text("Login")
+            $("#modal_body_sm").empty();
+            debugger;
+            $("#modal_body_sm").load("/Auth/Index");
+            $("#modal_title").text("Login")
             $("#modal_sm").modal("show");
            
 
             //$("#modal-body-sm").empty();
 
-        })
+        });
             
     });
 </script>

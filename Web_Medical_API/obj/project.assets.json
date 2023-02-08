@@ -3626,6 +3626,23 @@
         "runtime": {
           "bin/placeholder/ViewModel.dll": {}
         }
+      },
+      "Web_Medical_FE/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1",
+          "ViewModel": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Web_Medical_FE.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Web_Medical_FE.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -10234,6 +10251,11 @@
       "type": "project",
       "path": "../ViewModel/ViewModel.csproj",
       "msbuildProject": "../ViewModel/ViewModel.csproj"
+    },
+    "Web_Medical_FE/1.0.0": {
+      "type": "project",
+      "path": "../Web_Medical_FE/Web_Medical_FE.csproj",
+      "msbuildProject": "../Web_Medical_FE/Web_Medical_FE.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -10243,7 +10265,8 @@
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.13",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.11",
       "Swashbuckle.AspNetCore >= 6.2.3",
-      "ViewModel >= 1.0.0"
+      "ViewModel >= 1.0.0",
+      "Web_Medical_FE >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -10275,6 +10298,9 @@
           "projectReferences": {
             "C:\\project\\Web_Medical\\ViewModel\\ViewModel.csproj": {
               "projectPath": "C:\\project\\Web_Medical\\ViewModel\\ViewModel.csproj"
+            },
+            "C:\\project\\Web_Medical\\Web_Medical_FE\\Web_Medical_FE.csproj": {
+              "projectPath": "C:\\project\\Web_Medical\\Web_Medical_FE\\Web_Medical_FE.csproj"
             }
           }
         }

@@ -1,23 +1,22 @@
-﻿
-
-<form >
-    <fieldset>
+﻿@model ViewModel.VMUser
+<form asp-action="Login" >
+    
 
 
         <div class="form-group">
             <label for="Email" class="form-label mt-4">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
             <label for="Password" class="form-label mt-4">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="Password">
+        <input type="password" class="form-control" id="Password" placeholder="Password" name="Password">
         </div>
 
-    </fieldset>
+    
     <div class="modal-footer">
-        <button id="btn-submit" type="submit" class="btn btn-primary">Save changes</button>
-        <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="btn-submit" type="submit" class="btn btn-primary">Login</button>
+        <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
     </div>
 </form>
 
