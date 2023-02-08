@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web_Medical_FE</title>
+    <link rel="stylesheet" href="~/css/morph.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />*@
+    @*<link rel="stylesheet" href="~/Web_Medical_FE.styles.css" asp-append-version="true" />*@
+
+</head>
+<body id="body-pd">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            Home
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button id="login" class="btn btn-secondary my-2 my-sm-0" >Login</button>
+                </div>
+                @*<form class="d-flex">
+                    <input class="form-control me-sm-2" type="search" placeholder="Search">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>*@
+            </div>
+        </div>
+    </nav>
+    <!--Container Main start-->
+    <div class="height-100 bg-light">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    @*=================MODAL=====================*@
+    <div id="modal_sm" class="modal hide fade in" data-bs-keyboard="false" data-bs-backdrop="static">
+    
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="modal-title" class="modal-title">Modal title</h5>
+        <button hidden type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div id="modal-body-sm" class="modal-body">
+        <p>---------------</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-submit"  type="button" class="btn btn-primary">Save changes</button>
+        <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    @*=================MODALEND=====================*@
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+</body>
+<!--Container Main end-->
+
+</html>
+
+<script>
+    var isValid = false;
+    $(document).ready(function () {
+        $("#login").click(function (){
+
+            $("#modal-body-sm").load("/Auth/Index");
+            $("#modal-title").text("Login")
+            $("#modal_sm").modal("show");
+           
+
+            //$("#modal-body-sm").empty();
+
+        })
+            
+    });
+</script>
