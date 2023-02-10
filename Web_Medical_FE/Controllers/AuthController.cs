@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ViewModel;
+using ViewModels;
 using Web_Medical_FE.Services;
 
 namespace Web_Medical_FE.Controllers
@@ -24,9 +25,16 @@ namespace Web_Medical_FE.Controllers
             bool isLigin = await authService.Login(Name, Password);
 
             if (isLigin==true) 
-            { return View("Index","Home"); }
+            { return RedirectToAction("Index", "Home"); }
             return RedirectToAction("Index");
 
+        }
+        public async Task<VMResponse> CheckEmailPassword(VMUser dataparam)
+        {
+
+            VMResponse isExist = await authService.CheckEmailPassword(dataparam);
+
+            return isExist;
         }
     }
 }

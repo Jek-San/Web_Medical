@@ -1,16 +1,16 @@
 ﻿@model ViewModel.VMUser
-<form asp-action="Login" >
+<form id="form" >
     
 
 
         <div class="form-group">
             <label for="Email" class="form-label mt-4">Email address</label>
-        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
+        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email" required>
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
             <label for="Password" class="form-label mt-4">Password</label>
-        <input type="password" class="form-control" id="Password" placeholder="Password" name="Password">
+        <input type="password" class="form-control" id="Password" placeholder="Password" name="Password" required>
         </div>
 
     
@@ -20,3 +20,134 @@
     </div>
 </form>
 
+
+<script>
+    var isValid = false;
+    $().ready(function () {
+        //$("#addTindakanMed").validate({
+        //    errorClass: "text-danger is-invalid",
+        //    rules: {
+        //        Email: {
+        //            required: true,
+        //            minlength: 2
+        //        }
+
+        //    },
+        //    messages: {
+        //        Name: {
+        //            required: "Plese fill in",
+        //            minlength: "Please at least 2 characters"
+        //        }
+
+        //    },
+
+        //    submitHandler: function (form) {
+
+        //        var dataForm = $(form).serialize();
+
+
+
+        //        submitForm(dataForm);
+
+        //    }
+        //});
+      
+        
+        $("#btn-submit").click(function(e){
+            e.preventDefault();
+            debugger;
+            var dataForm = $("#form").serialize();
+
+            $.ajax({
+                debugger;
+                url: "/Auth/CheckEmailPassword",
+                data: dataForm,
+                method: "get",
+                dataType: "json",
+                success: function (respon) {
+                    debugger;
+                    var data = respon;
+                    $("#modal_lg").modal("hide");
+                    if (data.success) {
+
+                        $("#modal-body-sm").empty();
+                        $("#modal-body-sm").load("/ProfilLayout/Sukses");
+                        $("#modal_sm").modal("show");
+                        window.location.reload();
+
+                    }
+                    else {
+
+                        $("#modal-body-sm").empty();
+                        $("#modal-body-sm").load("/ProfilLayout/Gagal");
+                        window.location.reload();
+                        $("#modal_sm").modal("show");
+                    }
+
+
+                }
+            })
+        });
+
+        function submitForm(dataParam) {
+
+            $.ajax({
+                url: "/Auth/CheckEmailPassword",
+                data: dataParam,
+                method: "get",
+                dataType: "json",
+                success: function (respon) {
+                    debugger;
+                    var data = respon.dataRespon;
+                    $("#modal_lg").modal("hide");
+                    if (data.success) {
+
+                        $("#modal-body-sm").empty();
+                        $("#modal-body-sm").load("/ProfilLayout/Sukses");
+                        $("#modal_sm").modal("show");
+                        window.location.reload();
+
+                    }
+                    else {
+
+                        $("#modal-body-sm").empty();
+                        $("#modal-body-sm").load("/ProfilLayout/Gagal");
+                        window.location.reload();
+                        $("#modal_sm").modal("show");
+                    }
+
+
+                }
+            })
+        };
+        $("#Name").change(function () {
+            debugger;
+            $("#validate_Name").text("")
+            isValid = true;
+            var nameTindakan = $(this).val();
+            $.ajax({
+                url: "/ProfilLayout/CheckTindakanByName",
+                data: { name: nameTindakan },
+                dataType: "json",
+                success: function (respon) {
+                    debugger;
+                    if (respon) {
+                        $("#validate_Name").text("Name already used");
+                        $("#validate_Name").addClass("text-danger");
+                        $("#btn_Submit").addClass("disabled");
+                        isValid = false;
+                    }
+                    else {
+                        $("#validate_Name").toggleClass("text-danger", false);
+                        $("#btn_Submit").removeClass("disabled");
+                        isValid = true;
+                    }
+                },
+                error: function (res) {
+                    debugger;
+                }
+            })
+        });
+    });
+
+</script>

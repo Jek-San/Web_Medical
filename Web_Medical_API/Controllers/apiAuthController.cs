@@ -63,8 +63,8 @@ namespace Web_Medical_API.Controllers
             }
             catch (Exception e)
             {
-                response.Success=false;
-                response.Message= "Edit data is Failde with exeption"+ e;
+                response.Success = false;
+                response.Message = "Edit data is Failde with exeption" + e;
             }
 
             return response;
@@ -74,13 +74,40 @@ namespace Web_Medical_API.Controllers
         public bool Login(string email, string password)
         {
             MUser user = new MUser();
+            bool isLogin = true;
             user = db.MUsers.Where(i => i.Password == password && i.Email == email).FirstOrDefault();
-            
+
             if (user == null)
             {
-                return false;
-            }    
-            return true;
+                isLogin = false;
+            }
+            return isLogin;
+        }
+
+        [HttpGet("Check/{email}/{password}")]
+        public VMResponse CheckEmailPassword(string Email, string Password)
+        {
+
+            VMResponse response = new VMResponse();
+            response.Success = true;
+            MUser user = new MUser();
+            user = db.MUsers.Where(a => a.Email == Email).FirstOrDefault();
+            if (user == null)
+            {
+                response.Success = false;
+                response.Message = "Email tidak ditemukan";
+                return response;
+            }
+            if (response.Success)
+            {
+                user = db.MUsers.Where(a => a.Password == Password & a.Email == Email).FirstOrDefault();
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "Password anda salah";
+                }
+            }
+            return response;
         }
 
     }
