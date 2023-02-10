@@ -26,15 +26,21 @@ namespace Web_Medical_FE.Controllers
 
             if (isLigin==true) 
             { return RedirectToAction("Index", "Home"); }
-            return RedirectToAction("Index");
-
+            return View(user);
         }
-        public async Task<VMResponse> CheckEmailPassword(VMUser dataparam)
+        
+        public async Task<JsonResult> CheckEmailPassword(string Email, string Password)
         {
+            VMUser dataparam = new VMUser();
+            dataparam.Email = Email;
+            dataparam.Password = Password;
+            bool response = await authService.Check(dataparam);
 
-            VMResponse isExist = await authService.CheckEmailPassword(dataparam);
-
-            return isExist;
+            return Json(response);
+        }
+        public IActionResult Sukses()
+        {
+            return PartialView();
         }
     }
 }

@@ -41,5 +41,13 @@ namespace Web_Medical_FE.Services
             vmResponse = JsonConvert.DeserializeObject<VMResponse>(apiResponse);
             return vmResponse;
         }
+        [HttpGet]
+        public async Task<bool> Check(VMUser dataParam)
+        {
+            
+            string apiResponse = await client.GetStringAsync(RouteAPI + $"api/apiAuth/Login/{dataParam.Email}/{dataParam.Password}");
+            bool respon = JsonConvert.DeserializeObject<bool>(apiResponse);
+            return respon;
+        }
     }
 }
