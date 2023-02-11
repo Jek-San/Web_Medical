@@ -38,9 +38,22 @@ namespace Web_Medical_FE.Controllers
 
             return Json(response);
         }
+
+
         public IActionResult Sukses()
         {
             return PartialView();
+        }
+
+        public IActionResult Pendaftaran()
+        {
+            return PartialView();
+        }
+
+        public async Task<JsonResult> CheckEmail(string email)
+        {
+            bool isExist = await authService.CheckEmail(email);
+            return Json(isExist);
         }
     }
 }

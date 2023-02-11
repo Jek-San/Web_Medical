@@ -45,11 +45,11 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button id="login"  class="btn btn-secondary my-2 my-sm-0" >Login</button>
+                    <button id="login" class="btn btn-secondary my-2 my-sm-0">Login</button>
                 </div>
                 @*<form class="d-flex">
-                    <input class="form-control me-sm-2" type="search" placeholder="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control me-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>*@
             </div>
         </div>
@@ -64,53 +64,67 @@
 
     @*=================MODAL=====================*@
     <div id="modal_sm" class="modal hide fade in" data-bs-keyboard="false" data-bs-backdrop="static">
-    
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 id="modal_title" class="modal-title">Modal title</h5>
-        <button hidden type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true"></span>
-        </button>
-      </div>
-      <div id="modal_body_sm" class="modal-body">
-        <p>---------------</p>
-      </div>
-      @*<div class="modal-footer">
-        <button id="btn_submit"  type="button" class="btn btn-primary">Save changes</button>
-        <button id="btn_close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>*@
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="modal_title" class="modal-title">Modal title</h5>
+                    <button hidden type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div id="modal_body_sm" class="modal-body">
+                    <p>---------------</p>
+                </div>
+                @*<div class="modal-footer">
+                <button id="btn_submit"  type="button" class="btn btn-primary">Save changes</button>
+                <button id="btn_close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>*@
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
 
     @*=================MODALEND=====================*@
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 <!--Container Main end-->
 
 </html>
 
 <script>
-    var isValid = false;
+
+    //var isValid = false;
+    //async function loadlogin() {
+    //    alert("Ok")
+    //    $("#modal_body_sm").load("/Auth/Index");
+    //    fetch(`/Auth/Index`)
+    //        .then(response => response.text())
+    //        .then(data => {
+    //            document.getElementById("modal_title").textContent = "Daftar";
+    //            document.getElementById("modal_body_sm").innerHTML = data;
+    //            document.getElementById("modal_sm").style.display = "block";
+    //        })
+
+    //}
     $(document).ready(function () {
-        $("#login").click(function (){
+        $("#login").click(function () {
 
             $("#modal_body_sm").empty();
-            debugger;
+            //debugger;
             $("#modal_body_sm").load("/Auth/Index");
             $("#modal_title").text("Login")
             $("#modal_sm").modal("show");
-           
+
 
             //$("#modal-body-sm").empty();
 
         });
-            
+
     });
 </script>

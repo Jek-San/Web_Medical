@@ -83,6 +83,20 @@ namespace Web_Medical_API.Controllers
             }
             return isLogin;
         }
+        //Check Email Only
+        [HttpGet("CheckUserByEmail/{email}")]
+        public bool CheckUserByEmail(string email)
+        {
+            MUser user = new MUser();
+            user = db.MUsers.Where(a => a.Email == email && a.IsDelete == false).FirstOrDefault();
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         [HttpGet("Check/{email}/{password}")]
         public VMResponse CheckEmailPassword(string Email, string Password)

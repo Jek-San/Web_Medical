@@ -1,0 +1,57 @@
+﻿
+
+<form id="form_pendaftaran">
+
+
+
+    <div class="form-group">
+        <label for="Email" class="form-label mt-4">Masukkan Email Anda. Kami Akan Melakukan Pengecekan</label>
+
+    </div>
+    <div class="form-group">
+        <label for="Email" class="form-label mt-4">Email address</label>
+        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email" >
+        <small id="emailHelp" class="form-text text-danger"></small>
+    </div>
+
+
+
+    <div class="modal-footer text-center">
+
+        <button id="btn_submit" onclick="event.preventDefault()" class="btn btn-primary">Kirim OTP</button>
+        <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+
+
+    </div>
+</form>
+
+
+
+
+
+<script>
+    document.querySelector("#btn_submit").addEventListener("click", (event) => {
+        event.preventDefault();
+        var form = document.getElementById("form_pendaftaran");
+        var formData = new FormData(form);
+        var email = formData.get("Email")
+        console.log(email)
+
+        fetch(`/Auth/CheckEmail?Email=${formData.get("Email")}`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data) {
+                   //command to sent otp
+                }
+                else {
+                    document.querySelector("#emailHelp").innerHTML = "Email sudah terdaftar";
+                }
+            });
+       
+    })
+
+</script>
+
+
+
+

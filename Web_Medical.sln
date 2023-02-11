@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_Medical_API", "Web_Medi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel", "ViewModel\ViewModel.csproj", "{AA5A6518-7DD6-4442-B312-2F80F6973F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Medical_FE", "Web_Medical_FE\Web_Medical_FE.csproj", "{B47B4284-B922-4991-AD0C-0430DC1A7A67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_Medical_FE", "Web_Medical_FE\Web_Medical_FE.csproj", "{B47B4284-B922-4991-AD0C-0430DC1A7A67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

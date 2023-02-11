@@ -1,117 +1,54 @@
-﻿
+﻿document.getElementById("btn-submit").addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    var form = document.getElementById("form");
+    var formData = new FormData(form);
 
 
 
-<form id="form">
+    console.log(formData)
+    fetch(`/Auth/CheckEmailPassword?Email=${formData.get("Email")}&Password=${formData.get("Password")}`)
+        .then(response => response.json())
+        .then(data => {
+            if (!data) {
+                document.querySelector("#passHelp").innerHTML = "Password is wrong!";
+            }
+            else {
+                fetch("/Auth/Sukses")
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data)
+                        document.getElementById("modal_body_sm").innerHTML = data;
+                        document.getElementById("modal_sm").style.display = "block";
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
 
 
+                    });
+            }
+        });
+    //fetch("/Auth/CheckEmailPassword", {
+    //    method: "POST",
+    //    headers: {
+    //        "Content-Type": "application/json"
+    //    },
+    //    body: JSON.stringify(data)
+    //})
+    //    .then(response => response.json())
+    //    .then(respon => {
+    //        var data = respon;
+    //        if (data.success) {
+    //            console.log(respon)
+    //        }
 
-    <div class="form-group">
-        <label for="Email" class="form-label mt-4">Email address</label>
-        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email" required>
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-        <label for="Password" class="form-label mt-4">Password</label>
-        <input type="password" class="form-control" id="Password" placeholder="Password" name="Password" required>
-        <small id="passHelp" class="form-text text-danger ">.</small>
+    //        else {
+    //            console.log(respon)
 
-    </div>
-    
+    //        }
+    //    });
 
-
-    <div class="modal-footer">
-
-        <button id="btn-submit" type="submit" class="btn btn-primary">Login</button>
-        <button id="btn-test" type="submit" class="btn btn-primary">Test</button>
-        <button id="btn-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
-    </div>
-    <div class="form-group row">
-        <a id="btn_lupaPass" class="form-label mt-2 col-12 text-center">Lupa Password?</a>
-        <p class="form-label mt-2 col-12 text-center ">Atau</p>
-        <div class="form-label col-12 m2-4 text-center">Belum punya akun? <a id="btn_pendaftaran"  style="cursor:pointer">Daftar</a> </div>
-
-
-    </div>
-</form>
-
-
-<script>
-
-   
-    function test(){
-        alert("as")
-    }
-
-    //pendaftaran show modal
-    document.getElementById("btn_pendaftaran").addEventListener("click", async (event) =>{
-        event.preventDefault();
-        fetch("/Auth/Pendaftaran")
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                document.getElementById("modal_title").textContent = "Daftar"
-                document.getElementById("modal_body_sm").innerHTML = data;
-                eval(document.getElementById("modal_body_sm").getElementsByTagName("script")[0].innerHTML);
-                document.getElementById("modal_sm").style.display = "block";
-               
-
-
-            });
-    })
-    //end pendaftaran show modal
-
-    document.getElementById("btn-submit").addEventListener("click", function(){
-        event.preventDefault();
-
-        var form = document.getElementById("form");
-        var formData = new FormData(form);
-
-
-
-        console.log(formData)
-        fetch(`/Auth/CheckEmailPassword?Email=${formData.get("Email")}&Password=${formData.get("Password")}`)
-            .then(response => response.json())
-            .then(data => {
-                if (!data) {
-                    document.querySelector("#passHelp").innerHTML = "Password is wrong!";
-                }
-                else {
-                    fetch("/Auth/Sukses")
-                        .then(response => response.text())
-                        .then(data => {
-                            console.log(data)
-                            document.getElementById("modal_body_sm").innerHTML = data;
-                            document.getElementById("modal_sm").style.display = "block";
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 3000);
-
-
-                        });
-                }
-            });
-        //fetch("/Auth/CheckEmailPassword", {
-        //    method: "POST",
-        //    headers: {
-        //        "Content-Type": "application/json"
-        //    },
-        //    body: JSON.stringify(data)
-        //})
-        //    .then(response => response.json())
-        //    .then(respon => {
-        //        var data = respon;
-        //        if (data.success) {
-        //            console.log(respon)
-        //        }
-
-        //        else {
-        //            console.log(respon)
-
-        //        }
-        //    });
-
-    });
+});
 
 
                                                         //var isValid = false;
@@ -241,5 +178,3 @@
                                                         //        })
                                                         //    });
                                                         //});
-
-</script>

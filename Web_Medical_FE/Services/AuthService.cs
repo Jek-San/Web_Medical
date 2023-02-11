@@ -49,5 +49,14 @@ namespace Web_Medical_FE.Services
             bool respon = JsonConvert.DeserializeObject<bool>(apiResponse);
             return respon;
         }
+
+        //check emailonly
+        [HttpGet]
+        public async Task<bool> CheckEmail(string email)
+        {
+            string apiResponse = await client.GetStringAsync(RouteAPI + $"api/apiAuth/CheckUserByEmail/{email}");
+            bool respon = JsonConvert.DeserializeObject<bool>(apiResponse) ;
+            return respon;
+        }
     }
 }
