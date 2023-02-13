@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
+using ViewModel;
 using ViewModels;
 using Web_Medical_API.models;
 
@@ -97,6 +99,19 @@ namespace Web_Medical_API.Controllers
 
             return true;
         }
+        [HttpGet("CheckOTp/{OTP}")]
+        public bool CheckOTP(string OTP)
+        {
+            TToken token = new TToken();
+            token = db.TTokens.Where(a => a.Token == OTP && a.IsExpired == false).FirstOrDefault();
+
+            if (token == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         [HttpGet("Check/{email}/{password}")]
         public VMResponse CheckEmailPassword(string Email, string Password)
@@ -124,7 +139,46 @@ namespace Web_Medical_API.Controllers
             return response;
         }
 
+        [HttpPost("OTP/{Case}")]
+        public VMResponse OTP(TToken data, int Case)
+        {
 
+            TToken cs = db.TTokens.Where(a => a.Email == data.Email).OrderByDescending(a => a.CreateOn).FirstOrDefault();
+            if (cs == null || DateTime.Now > cs.ExpiredOn || cs.IsExpired == true)
+            {
+                data.CreateOn = DateTime.Now;
+                data.ExpiredOn = DateTime.Now.AddMinutes(10);
+                data.CreateBy = 1;
+                data.IsExpired = (DateTime.Now > data.ExpiredOn) ? true : false;
+                data.IsDelete = false;
+                if (Case == 1)
+                {
+                    data.UsedFor = "Daftar";
+                }
+                else if (Case == 2)
+                {
+                    data.UsedFor = "Lupa Password";
+                }
+                else if (Case == 3)
+                {
+                    data.UsedFor = "Ganti E-mail";
+                }
+                try
+                {
+                    db.Add(data);
+                    db.SaveChanges();
+
+                    response.Message = "token berhasil ditambah";
+                }
+                catch (Exception e)
+                {
+                    response.Success= false;
+                    response.Message = "Failed saved : " + e.Message;
+
+                }
+            }
+            return response;
+        }
 
     }
 }

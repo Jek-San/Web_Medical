@@ -1,0 +1,25 @@
+﻿ <form class="form-register">
+        <div class="form-outline mb-4">
+            <label class="form-label" for="loginName">Nama Lengkap*</label>
+            <input type="text" id="nama" name="Fullname" class="form-control" />
+        </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="loginName">Nomor Handphone</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <input value="+62" disabled class="input-group-text" />
+                </div>
+                <input type="text" id="nomorhp" name="nomorhp" class="form-control col-11" />
+            </div>
+            <span id="errorSpan2" class="text-danger"></span>
+        </div>
+        <div class="form-outline mb-4">
+            <label for="">Role</label>
+        @Html.DropDownList("RoleId", new SelectList(ViewBag.ListRole, "Id","Name"),
+            "--Pilih--", new{@class="form-control"})
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary" id="btn-submit">Set Password</button>
+        </div>
+    </form>
+

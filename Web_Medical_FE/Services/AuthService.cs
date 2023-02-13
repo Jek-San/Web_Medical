@@ -60,10 +60,12 @@ namespace Web_Medical_FE.Services
             bool respon = JsonConvert.DeserializeObject<bool>(apiResponse) ;
             return respon;
         }
+        [HttpPost]
         public async Task<VMResponse> SendOTP(VMToken data, int Case)
         {
             VMResponse respon = new VMResponse();
             string json = JsonConvert.SerializeObject(data);
+
 
             StringContent content = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
@@ -82,6 +84,16 @@ namespace Web_Medical_FE.Services
                 respon.Message = $"{request.StatusCode} : {request.ReasonPhrase}";
             }
             return respon;
+        }
+
+        [HttpGet]
+        public async Task<bool> CheckOtp(int OTP)
+        {
+            bool isSuccess = false;
+            string apiResponse = await client.GetStringAsync(RouteAPI + $"api/apiAuth/CheckOTP/{OTP.ToString()}");
+            bool respon = JsonConvert.DeserializeObject<bool>(apiResponse);
+            return respon;
+
         }
     }
 }

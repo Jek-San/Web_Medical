@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<RoleService>();
 
 
 var app = builder.Build();

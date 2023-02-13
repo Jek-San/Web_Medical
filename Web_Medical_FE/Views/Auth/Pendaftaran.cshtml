@@ -10,7 +10,7 @@
     </div>
     <div class="form-group">
         <label for="Email" class="form-label mt-4">Email address</label>
-        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email" >
+        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" placeholder="Enter email" name="Email">
         <small id="emailHelp" class="form-text text-danger"></small>
     </div>
 
@@ -41,13 +41,31 @@
             .then(response => response.json())
             .then(data => {
                 if (!data) {
-                   //command to sent otp
+                    //command to sent otp
+                    fetch(`Auth/SendOtp?Email=${email}&Case=1`)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data)
+                            if (data) {
+                                fetch(`Auth/ModalCheckOTP`)
+                                    .then(response => response.text())
+                                    .then(data => {
+                                        document.getElementById("modal_title").textContent = "Verifikasi E-Mail"
+                                        document.getElementById("modal_body_sm").innerHTML = data;
+                                        eval(document.getElementById("modal_body_sm").getElementsByTagName("script")[0].innerHTML);
+                                        document.getElementById("modal_sm").style.display = "block";
+                                    })
+                            }
+                            else {
+                                //change something
+                            }
+                        })
                 }
                 else {
                     document.querySelector("#emailHelp").innerHTML = "Email sudah terdaftar, gunakan email yang lain";
                 }
-            });
-       
+            })
+
     })
 
 </script>

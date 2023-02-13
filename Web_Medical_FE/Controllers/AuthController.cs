@@ -11,10 +11,13 @@ namespace Web_Medical_FE.Controllers
     public class AuthController : Controller
     {
         private readonly AuthService authService;
-        public AuthController(AuthService _authService)
+        private readonly RoleService roleService;
+        public AuthController(AuthService _authService,RoleService roleService )
         {
             this.authService= _authService;
+            this.roleService= roleService;
         }
+        VMResponse response = new VMResponse();
 
         public IActionResult Index()
         {
@@ -59,7 +62,7 @@ namespace Web_Medical_FE.Controllers
             return Json(isExist);
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> SendOTP(string Email, int Case)
         {
             VMToken data = new VMToken();
@@ -68,13 +71,41 @@ namespace Web_Medical_FE.Controllers
             otp = rnd.Next(100000, 999999);
             data.Token = otp.ToString();
             data.Email = Email;
-            VMResponse respon = await authService.SendOTP(data, Case);
-            if (respon.Message == "token berhasil ditambah")
+            bool send = SendEmail(data, otp);
+            if (send)
             {
-                bool send = SendEmail(data, otp);
+            response = await authService.SendOTP(data, Case);
+
             }
-            return Json(respon);
+            return Json(response);
         }
+
+        public IActionResult ModalCheckOTP()
+        {
+            return PartialView();
+        }
+        public async Task<JsonResult> CheckOtp(int otp)
+        {
+            bool respon = await authService.CheckOtp(otp);
+            return Json(respon);
+
+        }
+        public IActionResult ModalSetPassword()
+        {
+            return PartialView();
+        }
+
+        public async Task<IActionResult> ModalIsiData()
+        {
+            List<VMRole> listRole = await roleService.AllRole();
+
+            ViewBag.ListRole = listRole;
+            return PartialView();
+        }
+
+
+
+
 
         public bool SendEmail(VMToken cs, int otp)
         {
@@ -95,7 +126,7 @@ namespace Web_Medical_FE.Controllers
             NetworkCredential myCreds = new NetworkCredential("projectxaa@gmail.com", "awtnufofeaavdmlg");
 
             client.Credentials = myCreds;
-            var userState = "test1";
+            var userState = "SendingEmail";
 
             try
             {
@@ -108,5 +139,6 @@ namespace Web_Medical_FE.Controllers
             }
             return isSuccess;
         }
+
     }
 }

@@ -49,10 +49,14 @@
         fetch("/Auth/Pendaftaran")
             .then(response => response.text())
             .then(data => {
-                console.log(data);
                 document.getElementById("modal_title").textContent = "Daftar"
                 document.getElementById("modal_body_sm").innerHTML = data;
-                eval(document.getElementById("modal_body_sm").getElementsByTagName("script")[0].innerHTML);
+                
+                const script = document.createElement("script");
+                script.text = document.getElementById("modal_body_sm").getElementsByTagName("script")[0].innerHTML;
+                document.body.appendChild(script);
+
+                
                 document.getElementById("modal_sm").style.display = "block";
                
 
@@ -66,6 +70,7 @@
 
         var form = document.getElementById("form");
         var formData = new FormData(form);
+        const email = formData.get(Email);
 
 
 
@@ -80,7 +85,7 @@
                     fetch("/Auth/Sukses")
                         .then(response => response.text())
                         .then(data => {
-                            console.log(data)
+                            
                             document.getElementById("modal_body_sm").innerHTML = data;
                             document.getElementById("modal_sm").style.display = "block";
                             setTimeout(function () {

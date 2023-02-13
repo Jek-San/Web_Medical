@@ -1,0 +1,59 @@
+﻿
+<form id="form_checkOTP">
+
+
+
+    <div hidden class="form-group">
+        <label class="form-label mt-4">Masukkan kode OTP yang telah dikirimkan ke email anda</label>
+
+    </div>
+    <div class="form-group">
+        <label for="OTP" class="form-label mt-4">OTP</label>
+        <input type="number" class="form-control" id="OTP" aria-describedby="OTP" placeholder="Enter OTP" name="OTP">
+        <small id="otpHelp" class="form-text text-danger"></small>
+    </div>
+
+
+
+    <div class="modal-footer text-center">
+
+        <button id="btn_submit" onclick="event.preventDefault()" class="btn btn-primary">Konfirmasi OTP</button>
+
+
+    </div>
+</form>
+
+<script>
+    document.getElementById("btn_submit").addEventListener("click", async (event) => {
+        event.preventDefault();
+
+        var form = document.getElementById("form_checkOTP")
+        var formData = new FormData(form);
+        var otp = formData.get("OTP");
+        console.log(otp)
+
+
+    fetch(`/Auth/CheckOTP?OTP=${otp}`)
+        .then(response => response.json())
+        .then(data => {
+           if(data){
+               fetch(`/Auth/ModalSetPassword`)
+               .then(response => response.text())
+               .then(data =>{
+                            document.getElementById("otpHelp").innerHTML = "";
+                            document.getElementById("modal_title").textContent = "Set Password"
+                            document.getElementById("modal_body_sm").innerHTML = data;
+                            eval(document.getElementById("modal_body_sm").getElementsByTagName("script")[0].innerHTML);
+                            document.getElementById("modal_sm").style.display = "block";
+               })
+           }
+           else{
+                            document.getElementById("otpHelp").innerHTML = "OTP Salah";
+
+           }
+
+        })
+
+    })
+
+</script>
